@@ -1,0 +1,13 @@
+[default]
+# From https://github.com/crate-ci/typos/blob/master/docs/reference.md#example-configurations
+extend-ignore-re = [
+    # Ignore lines that end with `# spellchecker:disable-line`
+    "(?Rm)^.*(#|//)\\s*spellchecker:disable-line$",
+    # Ignore the line after `# spellchecker:ignore-next-line`:
+    "(#|//)\\s*spellchecker:ignore-next-line\\n.*",
+    # Ignore blocks between `# spellchecker:off` and `# spellchecker:on`
+    "(?s)(#|//)\\s*spellchecker:off.*?\\n\\s*(#|//)\\s*spellchecker:on",
+]
+
+[files]
+extend-exclude = ["src/pubmed_ophtha/caption_splitting/messages.py", "src/pubmed_ophtha/panel_assembly/messages.py"]

@@ -1,0 +1,56 @@
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+    - id: no-commit-to-branch
+      args: ["--branch", "main"]
+    - id: mixed-line-ending
+    - id: trailing-whitespace
+    - id: end-of-file-fixer
+    - id: check-yaml
+    - id: check-added-large-files
+    - id: fix-byte-order-marker
+
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.19.0
+  hooks:
+    - id: pyupgrade
+
+- repo: https://github.com/Yelp/detect-secrets
+  # Check for secrets in code (except .env file)
+  rev: v1.5.0
+  hooks:
+    - id: detect-secrets
+      args: ['--baseline', '.secrets.baseline']
+      exclude: .env
+
+
+# - repo: https://github.com/jsh9/pydoclint
+#   rev: 0.5.9
+#   hooks:
+#     - id: pydoclint
+
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  # Lint with ruff
+  rev: v0.7.3
+  hooks:
+    # Run the linter.
+    - id: ruff-format
+    - id: ruff
+      args: [--fix, --exit-non-zero-on-fix]
+      types_or: [python, pyi]
+      require_serial: true
+
+# - repo: https://github.com/twu/skjold
+#   # Check dependencies for security breaches
+#   rev: v0.6.2
+#   hooks:
+#     - id: skjold
+#       entry: skjold audit uv.lock
+#       language: python
+#       language_version: python3
+#       files: ^pyproject\.toml$
+#       additional_dependencies: []
+#       pass_filenames: false
+#       verbose: true
+#       args: ["-f", "poetry.lock"]

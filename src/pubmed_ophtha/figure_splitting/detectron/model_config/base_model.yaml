@@ -1,0 +1,17 @@
+_BASE_: "https://raw.githubusercontent.com/facebookresearch/detectron2/refs/heads/main/configs/COCO-Detection/retinanet_R_50_FPN_1x.yaml"
+OUTPUT_DIR: "models/image_clef"
+MODEL:
+  RETINANET:
+    NUM_CLASSES: 1
+    NMS_THRESH_TEST: 0.1
+DATASETS:
+  TRAIN: ("image_clef_2016_train",)
+  TEST: ("image_clef_2016_test",)
+TEST:
+  EVAL_PERIOD: 500
+  DETECTIONS_PER_IMAGE: 16
+SOLVER:
+  MAX_ITER: 30000
+  CHECKPOINT_PERIOD: 500
+
+SEED: 2160876624
