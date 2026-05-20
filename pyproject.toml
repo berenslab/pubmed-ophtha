@@ -1,6 +1,6 @@
 [project]
 name = "pubmed-ophtha"
-version = "0.1.0"
+version = "1.0.0"
 description = "An open resource for training ophthalmology vision-language models on scientific literature: dataset generation pipeline and detection models for PubMed-Ophtha."
 readme = "README.md"
 requires-python = ">=3.12"
