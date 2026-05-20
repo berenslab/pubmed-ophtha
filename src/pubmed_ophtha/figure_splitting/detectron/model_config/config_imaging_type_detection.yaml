@@ -1,0 +1,23 @@
+_BASE_: "./base_model.yaml"
+OUTPUT_DIR: "models/imaging_type_detection"
+INPUT:
+  USE_TRANSFORMS: true
+MODEL:
+  RETINANET:
+    NUM_CLASSES: 4
+  WEIGHTS: "models/image_clef_3104848164/model_0002099.pth"
+DATASETS:
+  TRAIN: ("imaging_type_detection_train",)
+  TEST: ("imaging_type_detection_test",)
+SOLVER:
+  IMS_PER_BATCH: 16
+  MAX_ITER: 15000
+  CHECKPOINT_PERIOD: 85
+  BASE_LR: 0.001
+  STEPS:
+  - 4000
+  - 12000
+TEST:
+  EVAL_PERIOD: 85
+  DETECTIONS_PER_IMAGE: 60
+SEED: 1515892632

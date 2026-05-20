@@ -1,0 +1,38 @@
+cff-version: 1.2.0
+message: "If you use PubMed-Ophtha, the code in this repository, or the released detection models, please cite the article in 'preferred-citation'."
+title: "PubMed-Ophtha: An open resource for training ophthalmology vision-language models on scientific literature"
+abstract: "Vision-language models hold considerable promise for ophthalmology, but their development depends on large-scale, high-quality image-text datasets that remain scarce. We present PubMed-Ophtha, a hierarchical dataset of 102,023 ophthalmological image-caption pairs extracted from 15,842 open-access articles in PubMed Central. Unlike existing datasets, figures are extracted directly from article PDFs at full resolution and decomposed into their constituent panels, panel identifiers, and individual images. Each image is annotated with its imaging modality – color fundus photography, optical coherence tomography, retinal imaging, or other – and a mark status indicating the presence of annotation marks such as arrows. Figure captions are split into panel-level subcaptions using a two-step LLM approach, achieving a mean average sentence BLEU score of 0.913 on human-annotated data. Panel and image detection models reach a mAP@0.50 of 0.909 and 0.892, respectively, and figure extraction achieves a median IoU of 0.997. To support reproducibility and further development, we additionally release the human-annotated ground-truth data (PubMed-Ophtha-Annotation) used for evaluating the models, all trained models, and the full dataset generation pipeline."
+type: software
+authors:
+  - family-names: Hallitschke
+    given-names: Verena Jasmin
+  - family-names: Eickhoff
+    given-names: Carsten
+  - family-names: Berens
+    given-names: Philipp
+license: MIT
+repository-code: "https://github.com/berenslab/pubmed-ophtha"
+url: "https://github.com/berenslab/pubmed-ophtha"
+keywords:
+  - ophthalmology
+  - vision-language-model
+  - vlm
+  - dataset
+  - pubmed
+  - pubmed-central
+  - medical-imaging
+  - fundus
+  - oct
+preferred-citation:
+  type: article
+  title: "PubMed-Ophtha: An open resource for training ophthalmology vision-language models on scientific literature"
+  authors:
+    - family-names: Hallitschke
+      given-names: Verena Jasmin
+    - family-names: Eickhoff
+      given-names: Carsten
+    - family-names: Berens
+      given-names: Philipp
+  year: 2026
+  journal: "arXiv preprint arXiv:2605.02720"
+  url: "https://arxiv.org/abs/2605.02720"

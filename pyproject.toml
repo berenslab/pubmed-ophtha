@@ -1,0 +1,144 @@
+[project]
+name = "pubmed-ophtha"
+version = "0.1.0"
+description = "An open resource for training ophthalmology vision-language models on scientific literature: dataset generation pipeline and detection models for PubMed-Ophtha."
+readme = "README.md"
+requires-python = ">=3.12"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  { name = "Verena Jasmin Hallitschke" },
+]
+keywords = [
+  "ophthalmology",
+  "vision-language-model",
+  "vlm",
+  "dataset",
+  "dataset-generation",
+  "web-scraping",
+  "pubmed",
+  "pubmed-central",
+  "medical-imaging",
+  "fundus",
+  "oct",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Operating System :: POSIX :: Linux",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence",
+  "Topic :: Scientific/Engineering :: Image Processing",
+  "Topic :: Scientific/Engineering :: Medical Science Apps.",
+]
+dependencies = [
+  "click>=8.1.7",
+  "opencv-python>=4.10.0.84",
+  "pandas>=2.2.3",
+  "pillow>=11.0.0",
+  "pyarrow>=18.1.0",
+  "pymupdf>=1.24.14",
+  "requests>=2.32.3",
+  "tqdm>=4.67.1",
+  "numpy==2.2.1",
+  "huggingface-hub>=0.27.1",
+  "webdataset>=0.2.100",
+  "polars>=1.21.0",
+  "imagehash>=4.3.2",
+  "nltk>=3.9.1",
+  "scikit-learn==1.6.1",
+  "pydantic>=2.11.5",
+  "thop>=0.1.1.post2209072238",
+  "torch==2.8.0",
+  "torchvision==0.23.0",
+  "sacrebleu>=2.5.1",
+  "easyocr>=1.7.2",
+  "openai>=2.0.0",
+  "wandb>=0.26.0",
+  "pmo-parser @ git+https://github.com/berenslab/pmo-parser.git@v1.0.0",
+]
+
+[dependency-groups]
+dev = [
+  "detect-secrets>=1.5.0",
+  "ipython>=8.31.0",
+  "jupyter>=1.1.1",
+  "pandas-stubs>=2.2.3.241126",
+  "pre-commit>=4.0.1",
+  "pydoclint>=0.5.9",
+  "pyright>=1.1.389",
+  "ruff>=0.8.1",
+  "types-requests>=2.32.0.20241016",
+  "pip>=25.0.1",
+]
+
+[project.optional-dependencies]
+detection = [
+  "detectron2 @ git+https://github.com/facebookresearch/detectron2.git",
+]
+figures = ["matplotlib==3.10.1", "seaborn==0.13.2"]
+examples = [
+  "accelerate>=1.7.0",
+  "datasets>=2.14.4",
+  "transformers>=4.57.0",
+  "peft>=0.19.1",
+]
+
+[project.urls]
+Repository = "https://github.com/berenslab/pubmed-ophtha"
+Paper = "https://arxiv.org/abs/2605.02720"
+Dataset = "https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha"
+Models = "https://huggingface.co/pubmed-ophtha/detection-models"
+
+# Uncomment the following lines to install torch for cpu
+# torch = [
+#   { index = "pytorch-cpu"},
+# ]
+# torchvision = [
+#   { index = "pytorch-cpu"},
+# ]
+
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.extra-build-dependencies]
+detectron2 = ["setuptools", "torch"]
+
+[project.scripts]
+pubmed-ophtha = "pubmed_ophtha.main:main"
+
+[build-system]
+requires = ["setuptools", "wheel", "torch"]
+build-backend = "setuptools.build_meta"
+
+[tool.pyright]
+include = ["./src"]
+struct = true
+exclude = [".venv"]
+venvPath = "."
+venv = ".venv"
+reportPrivateImportUsage = "warning"
+
+[tool.pydoclint]
+check-return-types = true
+style = 'google'
+
+[tool.ruff.lint]
+select = [
+  "D",
+  "ARG",
+  'E',
+  'F',
+  'W',
+  'A',
+  'PLC',
+  'PLE',
+  'PLW',
+  'I',
+] # D for docstring conventions, ARG for undocumented arguments.
+ignore = ["D212", "D203"]
+fixable = ["ALL"]
+unfixable = []

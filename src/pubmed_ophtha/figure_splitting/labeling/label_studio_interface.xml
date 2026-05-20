@@ -1,0 +1,62 @@
+<View>
+<View style="display: flex; width: 100%">
+<View style="width: 65%">
+  <Image name="image" value="$image_path" negativeZoom="true"/>
+  <View>
+  <Style>
+    .my-table-container td {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+    /* or you could constrain the container as well */
+    .my-table-container {
+      width: 100%;
+      overflow-wrap: break-word;
+    }
+  </Style>
+
+</View>
+</View>
+<View style="width: 35%">
+  <Relations>
+    <Relation value="similar"/>
+  </Relations>
+  <Header value="Image Type" size="6"/>
+  <RectangleLabels name="imaging_type_label" toName="image" choice="multiple" canRotate="false">
+    <Label value="Other" background="#D4380D"/>
+    <Label value="CFP" background="#D3F261"/>
+    <Label value="OCT" background="#389E0D"/>
+    <Label value="Retinal Imaging" background="#5CDBD3"/>
+  </RectangleLabels>
+  <Header value="Annotation Type" size="6"/>
+  <RectangleLabels name="annotation_type_label" toName="image" canRotate="false">
+    <Label value="Plain" background="#ADC6FF"/>
+    <Label value="Annotated" background="#9254DE"/>
+  </RectangleLabels>
+  <Header value="Panel Type" size="6"/>
+  <RectangleLabels name="panel_label" toName="image" canRotate="false">
+    <Label value="Image" background="#9254DE"/>
+    <Label value="Panel" background="#FFA39E"/>
+  <Label value="Label" background="#FFC069"/><Label value="Addition" background="#5CDBD3"/></RectangleLabels>
+  <Header value="Figure Caption" size="6"/>
+  <Text name="caption_text" value="$caption" granularity="word" selectionEnabled="true"/>
+  <Collapse>
+    <Panel value="Advanced">
+      <View>
+        <Labels name="caption_label" toName="caption_text">
+          <Label value="Caption"/>
+        </Labels>
+      </View>
+    </Panel>
+  </Collapse>
+  <Header value="Citation" size="6"/>
+  <Text name="citation" value="$citation" selectionEnabled="false"/>
+  <Text name="article_id" value="$article_id" selectionEnabled="false"/>
+  <Header value="Keywords" size="6"/>
+  <Text name="keywords" value="$keywords" selectionEnabled="false"/>
+</View>
+</View>
+  <TextArea name="transcription" toName="image" editable="true" perRegion="true" maxSubmissions="1" rows="5" placeholder="Recognized Text" displayMode="region-list"/>
+  <!-- <TextArea name="transcription" toName="image" editable="true" perRegion="true" maxSubmissions="1" rows="5" placeholder="Recognized Text"/> -->
+  <TextArea name="box_name" toName="image" editable="true" perRegion="true" maxSubmissions="1" rows="5" placeholder="Box Name" displayMode="region-list"/>
+</View>

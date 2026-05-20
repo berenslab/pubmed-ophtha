@@ -1,0 +1,23 @@
+_BASE_: "../base_model.yaml"
+OUTPUT_DIR: "models/panel_detection"
+INPUT:
+  USE_TRANSFORMS: true
+MODEL:
+  RETINANET:
+    NUM_CLASSES: 2
+  WEIGHTS: "models/image_clef_3104848164/model_0002099.pth"
+DATASETS:
+  TRAIN: ("panel_detection_train",)
+  TEST: ("panel_detection_test",)
+SOLVER:
+  IMS_PER_BATCH: 16
+  MAX_ITER: 100000
+  CHECKPOINT_PERIOD: 707
+  BASE_LR: 0.001
+  STEPS:
+  - 26000
+  - 80000
+TEST:
+  EVAL_PERIOD: 707
+  DETECTIONS_PER_IMAGE: 60
+SEED: 3104848164
