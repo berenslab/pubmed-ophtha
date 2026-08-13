@@ -1,6 +1,4 @@
-# PubMed-Ophtha
-
-**An open resource for training ophthalmology vision-language models on scientific literature**
+# PubMed-Ophtha: An open resource for training ophthalmology vision-language models on scientific literature
 
 [![arXiv](https://img.shields.io/badge/arXiv-2605.02720-b31b1b.svg)](https://arxiv.org/abs/2605.02720)
 [![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-pubmed--ophtha-yellow)](https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha)
