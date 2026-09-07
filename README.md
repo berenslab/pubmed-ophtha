@@ -468,13 +468,13 @@ If you use PubMed-Ophtha, the code in this repository, or the released detection
 
 ```bibtex
 @misc{hallitschke2026scientific,
-      title={Scientific Domain Knowledge Improves Vision-Language Fundus Models}, 
+      title={Scientific Domain Knowledge Improves Vision-Language Fundus Models},
       author={Verena Jasmin Hallitschke and Carsten Eickhoff and Philipp Berens},
       year={2026},
       eprint={2605.02720},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2605.02720}, 
+      url={https://arxiv.org/abs/2605.02720},
 }
 ```
 
