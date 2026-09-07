@@ -1,7 +1,7 @@
 cff-version: 1.2.0
-message: "If you use PubMed-Ophtha, the code in this repository, or the released detection models, please cite the article in 'preferred-citation'."
-title: "PubMed-Ophtha: An open resource for training ophthalmology vision-language models on scientific literature"
-abstract: "Vision-language models hold considerable promise for ophthalmology, but their development depends on large-scale, high-quality image-text datasets that remain scarce. We present PubMed-Ophtha, a hierarchical dataset of 102,023 ophthalmological image-caption pairs extracted from 15,842 open-access articles in PubMed Central. Unlike existing datasets, figures are extracted directly from article PDFs at full resolution and decomposed into their constituent panels, panel identifiers, and individual images. Each image is annotated with its imaging modality – color fundus photography, optical coherence tomography, retinal imaging, or other – and a mark status indicating the presence of annotation marks such as arrows. Figure captions are split into panel-level subcaptions using a two-step LLM approach, achieving a mean average sentence BLEU score of 0.913 on human-annotated data. Panel and image detection models reach a mAP@0.50 of 0.909 and 0.892, respectively, and figure extraction achieves a median IoU of 0.997. To support reproducibility and further development, we additionally release the human-annotated ground-truth data (PubMed-Ophtha-Annotation) used for evaluating the models, all trained models, and the full dataset generation pipeline."
+message: "If you use PubMed-Ophtha, the code in the repositories, or the released models, please cite the article in 'preferred-citation'."
+title: "Scientific Domain Knowledge Improves Vision-Language Fundus Models"
+abstract: "Vision-language models hold considerable promise for ophthalmology, but it remains unclear which training data source best conveys expert domain knowledge. Existing ophthalmic models are trained on fixed text templates, medical reports, or general biomedical literature, sources that have never been compared under matched conditions. To include domain-specific literature in this comparison, we present PubMed-Ophtha, a hierarchical dataset with high domain density of 102,023 panels with their subcaptions from 15,842 open-access articles in PubMed Central. We then finetuned identical CLIP models on each source, using a general biomedical literature model as baseline, and found that domain-specific literature achieved the best average performance across 110 clinical tasks, reaching a mean linear probing AUROC of 88.63% ahead of medical reports (85.68%). Restricting the dataset to fundus images, to the image count of the medical report dataset, or to articles unrelated to the evaluation datasets did not reduce performance, indicating that the gains likely stem from domain density. We release the dataset, the finetuned models, and the full generation pipeline."
 type: software
 authors:
   - family-names: Hallitschke
@@ -25,7 +25,7 @@ keywords:
   - oct
 preferred-citation:
   type: article
-  title: "PubMed-Ophtha: An open resource for training ophthalmology vision-language models on scientific literature"
+  title: "Scientific Domain Knowledge Improves Vision-Language Fundus Models"
   authors:
     - family-names: Hallitschke
       given-names: Verena Jasmin
