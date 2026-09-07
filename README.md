@@ -1,4 +1,4 @@
-# PubMed-Ophtha: An open resource for training ophthalmology vision-language models on scientific literature
+# PubMed-Ophtha: dataset generation pipeline
 
 [![arXiv](https://img.shields.io/badge/arXiv-2605.02720-b31b1b.svg)](https://arxiv.org/abs/2605.02720)
 [![Hugging Face Dataset](https://img.shields.io/badge/%F0%9F%A4%97%20Dataset-pubmed--ophtha-yellow)](https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha)
@@ -25,7 +25,7 @@ This repository contains the **full dataset generation pipeline** described in t
 - [Repository Structure](#repository-structure)
 - [Development](#development)
 - [Examples](#examples)
-- [Related Repositories](#related-repositories)
+- [Resources](#resources)
 - [Citation](#citation)
 - [License](#license)
 
@@ -42,7 +42,7 @@ It contains two files:
 | `pubmed_ophtha.parquet` | Panel-centric dataset for VLM training (102,023 panels) |
 | `pubmed_ophtha_annotation.json` | Human-annotated ground-truth dataset (PubMed-Ophtha-Annotation) |
 
-Each row of `pubmed_ophtha.parquet` represents a single panel and contains, among other fields, the panel image (as PNG bytes), the subcaption text, in-text mentions, imaging-type indicators (`contains_cfp`, `contains_oct`, `contains_retinal`, `contains_other`), `contains_marked`, panel/identifier bounding boxes, the assembly method used, and license/attribution metadata. See **Table 2** in the [paper](https://arxiv.org/abs/2605.02720) for the full column description.
+Each row of `pubmed_ophtha.parquet` represents a single panel and contains, among other fields, the panel image (as PNG bytes), the subcaption text, in-text mentions, imaging-type indicators (`contains_cfp`, `contains_oct`, `contains_retinal`, `contains_other`), `contains_marked`, panel/identifier bounding boxes, the assembly method used, and license/attribution metadata. See the supplementary dataset format tables and Supplementary Note 1 in the [paper](https://arxiv.org/abs/2605.02720) for the full column description.
 
 ## Prerequisites
 
@@ -117,7 +117,7 @@ Detection models used in the pipeline are released at [**pubmed-ophtha/detection
 | Image detector | RetinaNet (ResNet-50 backbone) | Detects individual images and classifies their imaging type (CFP / OCT / Retinal Imaging / Other) |
 | Mark status classifier | ResNet-50 | Predicts whether an image is annotated with a mark (arrow, dot, etc.) |
 
-Performance numbers are reported in Section 5 of the [paper](https://arxiv.org/abs/2605.02720). Default model paths and inference configurations are defined in [src/pubmed_ophtha/const/models.py](src/pubmed_ophtha/const/models.py).
+Performance numbers are reported in the technical validation section of the [paper](https://arxiv.org/abs/2605.02720). Default model paths and inference configurations are defined in [src/pubmed_ophtha/const/models.py](src/pubmed_ophtha/const/models.py).
 
 Download the weights with:
 
@@ -133,7 +133,7 @@ The project requires **Python 3.12+**. We recommend [uv](https://docs.astral.sh/
 
 ```bash
 uv pip install setuptools  # setuptools is required for installation
-uv pip install --no-build-isolation "git+https://github.com/berenslab/pubmed-ophtha.git@v.1.0.0" # [detection,figures,examples]
+uv pip install --no-build-isolation "git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0" # [detection,figures,examples]
 ```
 
 This installs the package as `pubmed-ophtha`, pulling in PyTorch 2.8 and [pmo-parser](https://github.com/berenslab/pmo-parser) (pinned at `v1.0.0`) for PDF figure and caption extraction. Detectron2 is an optional dependency installed via the `[detection]` extra — required only for the `pipeline stages figure-splitting` and `train` subcommands. Stages like `dataset fill-null`, `pipeline stages filtering`, `pipeline stages aggregation`, `pipeline stages caption-splitting`, and `pipeline stages panel-assembly` work without it.
@@ -144,7 +144,7 @@ This installs the package as `pubmed-ophtha`, pulling in PyTorch 2.8 and [pmo-pa
 
 ```bash
 pip install torch==2.8.0 torchvision==0.23.0 setuptools
-pip install --no-build-isolation "git+https://github.com/berenslab/pubmed-ophtha.git@v.1.0.0" # [detection,figures,examples]
+pip install --no-build-isolation "git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0" # [detection,figures,examples]
 ```
 
 If you only need stages that don't depend on `detectron2` (e.g. `fill_null`), omit the `[detection]` extra — `torch` is then the only heavy dependency you need.
@@ -157,9 +157,9 @@ Detectron2's `setup.py` imports `torch` at build time but does not declare it as
 
 | Name | Kind | Purpose | Install command |
 |---|---|---|---|
-| `detection` | extra | Detectron2 (from source) — required for the `pipeline stages figure-splitting` and `train` subcommands | `uv pip install --no-build-isolation "pubmed-ophtha[detection]"` (or the pip equivalent) |
-| `figures` | extra | Plotting utilities (matplotlib, seaborn) | `uv pip install "pubmed-ophtha[figures]"` (or `pip install "pubmed-ophtha[figures]"`) |
-| `examples` | extra | Run example training/inference notebooks (transformers, peft, accelerate, datasets) | `uv pip install "pubmed-ophtha[examples]"` (or `pip install "pubmed-ophtha[examples]"`) |
+| `detection` | extra | Detectron2 (from source) — required for the `pipeline stages figure-splitting` and `train` subcommands | `uv pip install --no-build-isolation "pubmed-ophtha[detection] @ git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0"` (or the pip equivalent) |
+| `figures` | extra | Plotting utilities (matplotlib, seaborn) | `uv pip install "pubmed-ophtha[figures] @ git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0"` (or `pip install "pubmed-ophtha[figures] @ git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0"`) |
+| `examples` | extra | Run example training/inference notebooks (transformers, peft, accelerate, datasets) | `uv pip install "pubmed-ophtha[examples] @ git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0"` (or `pip install "pubmed-ophtha[examples] @ git+https://github.com/berenslab/pubmed-ophtha.git@v1.0.0"`) |
 | `dev` | group | Development tooling (ruff, pyright, pre-commit, etc.) | `uv sync --group dev` (local clone only) |
 
 ### Environment variables
@@ -449,25 +449,32 @@ The [`examples/`](examples/) folder will host runnable notebooks demonstrating d
 
 > **Note:** The folder is currently empty. Example notebooks will be uploaded in an upcoming release.
 
-## Related Repositories
+## Resources
 
-| Repository | Purpose |
-|---|---|
-| [berenslab/pubmed-ophtha](https://github.com/berenslab/pubmed-ophtha) | This repository — dataset pipeline, trained models, and examples |
-| [berenslab/pmo-parser](https://github.com/berenslab/pmo-parser) | Standalone library for extracting figures and captions from PDFs (used by the `filtering` stage) |
-| [pubmed-ophtha/PubMed-Ophtha](https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha) | The published dataset on Hugging Face |
-| [pubmed-ophtha/detection-models](https://huggingface.co/pubmed-ophtha/detection-models) | Trained panel, image, and mark-status detection models |
+|                       |                                                                                                             |
+| --------------------- | ----------------------------------------------------------------------------------------------------------- |
+| Preprint              | [arXiv:2605.02720](https://arxiv.org/abs/2605.02720)                                                        |
+| Dataset               | [pubmed-ophtha/PubMed-Ophtha](https://huggingface.co/datasets/pubmed-ophtha/PubMed-Ophtha)                  |
+| Dataset pipeline      | *This repository*                                                                                           |
+| PDF parser            | [berenslab/pmo-parser](https://github.com/berenslab/pmo-parser)                                             |
+| CLIP experiments      | [berenslab/pmo-experiments](https://github.com/berenslab/pmo-experiments)                                   |
+| Figure-parsing models | [pubmed-ophtha/detection-models](https://huggingface.co/pubmed-ophtha/detection-models)                     |
+| PubMed-Ophtha CLIP    | [PubMed-Ophtha CLIP Models](https://huggingface.co/collections/pubmed-ophtha/pubmed-ophtha-clip-models)     |
+| Paper checkpoints     | [pubmed-ophtha/experiment-checkpoints](https://huggingface.co/pubmed-ophtha/experiment-checkpoints)         |
 
 ## Citation
 
 If you use PubMed-Ophtha, the code in this repository, or the released detection models, please cite:
 
 ```bibtex
-@article{hallitschke2026pubmed,
-  title={{PubMed-Ophtha}: An open resource for training ophthalmology vision-language models on scientific literature},
-  author={Hallitschke, Verena Jasmin and Eickhoff, Carsten and Berens, Philipp},
-  journal={arXiv preprint arXiv:2605.02720},
-  year={2026}
+@misc{hallitschke2026scientific,
+      title={Scientific Domain Knowledge Improves Vision-Language Fundus Models},
+      author={Verena Jasmin Hallitschke and Carsten Eickhoff and Philipp Berens},
+      year={2026},
+      eprint={2605.02720},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2605.02720},
 }
 ```
 
